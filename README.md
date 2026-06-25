@@ -1,5 +1,7 @@
 # AgentForge
 
+<p align="center"><img src="docs/demo.svg" alt="AgentForge demo" width="760"></p>
+
 **A lightweight multi-agent workflow orchestration CLI — offline by default.**
 
 AgentForge lets you describe a small team of LLM-powered agents and the tasks

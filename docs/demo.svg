@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="382" viewBox="0 0 860 382" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<rect x="0" y="0" width="860" height="382" rx="10" fill="#0d1117" stroke="#30363d"/>
+<rect x="0" y="0" width="860" height="34" rx="10" fill="#161b22"/>
+<rect x="0" y="20" width="860" height="14" fill="#161b22"/>
+<circle cx="20" cy="17" r="6" fill="#ff5f56"/>
+<circle cx="40" cy="17" r="6" fill="#ffbd2e"/>
+<circle cx="60" cy="17" r="6" fill="#27c93f"/>
+<text x="430.0" y="22" fill="#8b949e" font-size="12.5" text-anchor="middle">agentforge — multi-agent workflow CLI</text>
+<text x="20" y="60" fill="#e6edf3" font-size="14" xml:space="preserve">$ agentforge run examples/workflow.yaml --provider mock</text>
+<text x="20" y="82" fill="#c9d1d9" font-size="14" xml:space="preserve"></text>
+<text x="20" y="104" fill="#f0f6fc" font-size="14" xml:space="preserve">Running &#x27;Blog Post Pipeline&#x27; (dag mode, 3 tasks) via provider &#x27;mock&#x27;.</text>
+<text x="20" y="126" fill="#c9d1d9" font-size="14" xml:space="preserve"></text>
+<text x="20" y="148" fill="#58a6ff" font-size="14" xml:space="preserve">[1/3] Task &#x27;research&#x27; -&gt; agent &#x27;researcher&#x27; (Senior Research Analyst)</text>
+<text x="20" y="170" fill="#8b949e" font-size="14" xml:space="preserve">        done in 0.0 ms</text>
+<text x="20" y="192" fill="#58a6ff" font-size="14" xml:space="preserve">[2/3] Task &#x27;write&#x27;    -&gt; agent &#x27;writer&#x27; (Content Writer)</text>
+<text x="20" y="214" fill="#8b949e" font-size="14" xml:space="preserve">        done in 0.1 ms</text>
+<text x="20" y="236" fill="#58a6ff" font-size="14" xml:space="preserve">[3/3] Task &#x27;edit&#x27;     -&gt; agent &#x27;editor&#x27; (Managing Editor)</text>
+<text x="20" y="258" fill="#d29922" font-size="14" xml:space="preserve">        [checkpoint] human-in-the-loop approval required</text>
+<text x="20" y="280" fill="#8b949e" font-size="14" xml:space="preserve">        done in 0.1 ms</text>
+<text x="20" y="302" fill="#c9d1d9" font-size="14" xml:space="preserve"></text>
+<text x="20" y="324" fill="#3fb950" font-size="14" xml:space="preserve">Workflow completed successfully.</text>
+<text x="20" y="346" fill="#8b949e" font-size="14" xml:space="preserve">Trace (correction log) saved -&gt; run-trace.json</text>
+</svg>
