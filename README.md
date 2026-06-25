@@ -1,8 +1,21 @@
-# AgentForge
+<h1 align="center">🤖 AgentForge</h1>
+
+<p align="center">
+  <b>Orchestrate a team of LLM agents from one YAML file — runs offline, no API key.</b><br>
+  A lightweight multi-agent workflow CLI: define agents &amp; tasks, run them as a DAG with human-in-the-loop checkpoints.
+</p>
+
+<p align="center">
+  <a href="https://github.com/Hayatelin/agentforge/releases"><img src="https://img.shields.io/github/v/release/Hayatelin/agentforge?color=4f46e5" alt="release"></a>
+  <img src="https://img.shields.io/badge/python-3.9%2B-blue" alt="python">
+  <img src="https://img.shields.io/badge/deps-PyYAML%20only-green" alt="deps">
+  <img src="https://img.shields.io/badge/license-MIT-yellow" alt="license">
+  <a href="https://github.com/Hayatelin/agentforge/stargazers"><img src="https://img.shields.io/github/stars/Hayatelin/agentforge?style=social" alt="stars"></a>
+</p>
 
 <p align="center"><img src="docs/demo.svg" alt="AgentForge demo" width="760"></p>
 
-**A lightweight multi-agent workflow orchestration CLI — offline by default.**
+---
 
 AgentForge lets you describe a small team of LLM-powered agents and the tasks
 they collaborate on in a single YAML file, then runs that workflow as a
