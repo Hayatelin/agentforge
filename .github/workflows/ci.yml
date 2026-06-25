@@ -1,0 +1,23 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install pytest PyYAML
+      - run: pytest -q
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: secscan (dogfood)
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/Hayatelin/secscan-skill/main/secscan.py -o /tmp/secscan.py
+          python /tmp/secscan.py . --min-severity high

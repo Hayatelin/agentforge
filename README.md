@@ -6,6 +6,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/Hayatelin/agentforge/actions/workflows/ci.yml"><img src="https://github.com/Hayatelin/agentforge/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/Hayatelin/agentforge/releases"><img src="https://img.shields.io/github/v/release/Hayatelin/agentforge?color=4f46e5" alt="release"></a>
   <img src="https://img.shields.io/badge/python-3.9%2B-blue" alt="python">
   <img src="https://img.shields.io/badge/deps-PyYAML%20only-green" alt="deps">
