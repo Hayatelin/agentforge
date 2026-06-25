@@ -1,0 +1,57 @@
+# AgentForge example workflow
+# A 3-agent content pipeline: researcher -> writer -> editor.
+# Run it offline with:
+#   python -m agentforge run examples/workflow.yaml --yes --provider mock
+name: Blog Post Pipeline
+description: Research a topic, draft a blog post, then edit it for publication.
+mode: dag  # "dag" honours depends_on; "sequential" runs in file order.
+
+agents:
+  - name: researcher
+    role: Senior Research Analyst
+    goal: Gather accurate, relevant facts and angles on the topic
+    backstory: A meticulous analyst who loves primary sources and clear notes.
+    model: mock
+
+  - name: writer
+    role: Content Writer
+    goal: Turn research into an engaging, well-structured blog post
+    backstory: A storyteller who makes complex ideas approachable.
+    model: mock
+
+  - name: editor
+    role: Managing Editor
+    goal: Polish the draft and ensure it is ready to publish
+    backstory: A sharp editor with an eye for clarity, tone and accuracy.
+    model: mock
+
+tasks:
+  - name: research
+    description: >
+      Research the topic "Practical uses of multi-agent AI workflows".
+      Produce 5 key points and 2 surprising angles.
+    agent: researcher
+    output_var: research_notes
+
+  - name: write
+    description: >
+      Using these research notes, write a 600-word blog post draft with a
+      title, intro, three sections and a conclusion.
+
+      Research notes:
+      {{ research_notes }}
+    agent: writer
+    depends_on: [research]
+    output_var: draft
+
+  - name: edit
+    description: >
+      Edit the following draft for clarity, flow and tone. Fix any issues
+      and return the final publication-ready version.
+
+      Draft:
+      {{ draft }}
+    agent: editor
+    depends_on: [write]
+    output_var: final_post
+    require_approval: true  # human-in-the-loop checkpoint before publishing
