@@ -13,7 +13,7 @@
   <a href="https://github.com/Hayatelin/agentforge/stargazers"><img src="https://img.shields.io/github/stars/Hayatelin/agentforge?style=social" alt="stars"></a>
 </p>
 
-<p align="center"><img src="docs/demo.svg" alt="AgentForge demo" width="760"></p>
+<p align="center"><img src="docs/demo.gif" alt="AgentForge demo" width="820"></p>
 
 ---
 
