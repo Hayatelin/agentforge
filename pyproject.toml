@@ -29,9 +29,9 @@ dependencies = ["PyYAML>=6.0"]
 dev = ["pytest>=7.0"]
 
 [project.urls]
-Homepage = "https://github.com/VictorLin/agentforge"
-Repository = "https://github.com/VictorLin/agentforge"
-Issues = "https://github.com/VictorLin/agentforge/issues"
+Homepage = "https://github.com/Hayatelin/agentforge"
+Repository = "https://github.com/Hayatelin/agentforge"
+Issues = "https://github.com/Hayatelin/agentforge/issues"
 
 [project.scripts]
 agentforge = "agentforge.cli:main"
