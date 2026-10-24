@@ -48,6 +48,8 @@ code: **standard library + PyYAML only**.
 - 將每一步的輸入、模型、輸出與耗時寫入 JSON「修正日誌」（correction log），
   方便檢查與反覆改進。
 
+這裡的「代理」是 YAML 裡的角色設定：任務順序在執行前就由 DAG 決定，模型不會決定下一步，也不會呼叫工具；實際運作方式與它和 agent 迴圈的差別，見 [How it works — and is it an agent?](#how-it-works--and-is-it-an-agent)。
+
 **快速開始：**
 
 ```bash
@@ -181,6 +183,79 @@ flowchart TD
 5. **Run & trace.** The chosen provider generates output, which is stored under
    the task's `output_var` for downstream tasks, and every step is appended to
    the correction log.
+
+## How it works — and is it an agent?
+
+AgentForge is a workflow orchestrator. The YAML file fixes which tasks run, and in
+what order, before any model is called; the model only writes the text of each step.
+
+### One run, step by step
+
+1. `cli._cmd_run` calls `workflow.load_workflow`, which parses agents and tasks,
+   checks references and, in `dag` mode, runs `_topological_sort` once to reject cycles.
+2. `providers.get_provider` returns `MockProvider` or `OpenAIProvider`, and an
+   `Orchestrator` is built around it.
+3. `Orchestrator.run` calls `Workflow.execution_order()` once. That list is the whole
+   plan and never changes during the run; tasks execute one at a time in a `for` loop.
+4. A task with `require_approval: true` is gated first (`--yes` or console `y/N`);
+   a denial raises `ApprovalDenied` and ends the run.
+5. `_execute_task` builds the inputs, calls `provider.complete(...)` once, appends a
+   `StepRecord` to the trace and stores the output under the task's `output_var`.
+6. The CLI prints the results and writes `<workflow-basename>.trace.json` to the
+   current directory (or to `--trace PATH`).
+
+### Where the model is called and what it sees
+
+- One call per task, in `Orchestrator._execute_task`, with
+  `CompletionRequest(system, prompt, model)`.
+- `system` (from `_build_system_prompt`) lists the agent's name, role and optional
+  goal and backstory.
+- `prompt` is the task `description` after `_render` replaces each `{{ var }}` with
+  the full output of an earlier task; unknown names become `[missing: var]`. This is
+  the only channel between tasks: there is no chat history, and a task sees only the
+  outputs its description names.
+- `OpenAIProvider` sends two messages (`system`, `user`) to `/chat/completions` with
+  `temperature: 0.7` and returns `choices[0].message.content`. No `tools` field is
+  sent and the response is not checked for tool calls.
+- With `--provider mock` no model is called; `MockProvider` fills a fixed template.
+- Context length is not managed: no token counting, no `max_tokens`, no truncation or
+  summarisation. Upstream outputs are inlined verbatim, so prompts grow with every
+  `{{ var }}` hop. Token usage in the response is not read.
+- If the provider raises (HTTP error, missing API key), the CLI exits with a
+  traceback and writes no trace file.
+
+### Is this an agent?
+
+Not in the sense of an agent loop. In an agent loop the model is called repeatedly:
+a response may request a tool, the runtime runs it, appends the result to the
+conversation and calls the model again, until a final answer or a step limit.
+
+| | Agent loop | AgentForge |
+| --- | --- | --- |
+| Who decides the next step | the model, at run time | `depends_on` / file order, before the run |
+| Model calls per task | as many as the loop needs | exactly one |
+| Tools | schemas sent to the model; calls parsed and executed | none |
+| Context between steps | growing message list with tool results | `{{ var }}` text substitution |
+| Stop condition | final answer or step limit | end of task list, or approval denial |
+
+The "agents" are personas in the system prompt. The prompt tells each one "You are
+an autonomous agent", but the runtime gives it no control over what runs next.
+
+### What it would take to become an agent loop (roadmap idea, not implemented)
+
+1. Tool registry: a per-task `tools:` list in YAML, each tool with a name, a JSON
+   schema for its arguments and a Python handler.
+2. Send the schemas in the `tools` field of the chat-completions payload.
+3. Parse `message.tool_calls` as well as `content`; validate the arguments.
+4. Run the handler, append the assistant message and a `role: "tool"` result, and
+   call the model again: `_execute_task` becomes a loop over a message list.
+5. Stop when the model returns no tool call; enforce per-task `max_steps` and a
+   timeout; trace every iteration.
+6. Count tokens (or read `usage`) and truncate or summarise old tool results and
+   long upstream outputs before the context window fills.
+7. Optionally reuse `require_approval` to gate individual tool calls.
+
+This expands the existing roadmap item "Per-task tools / function calling".
 
 ## Configuration
 
