@@ -80,7 +80,7 @@ python -m agentforge run workflow.yaml --yes --provider mock
 Requires Python 3.9+.
 
 ```bash
-git clone https://github.com/VictorLin/agentforge.git
+git clone https://github.com/Hayatelin/agentforge.git
 cd agentforge
 
 # Option A: editable install (gives you the `agentforge` command + deps)

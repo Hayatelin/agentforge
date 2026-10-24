@@ -9,7 +9,7 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install pytest PyYAML
-      - run: pytest -q
+      - run: python -m pytest -q
   security:
     runs-on: ubuntu-latest
     steps:
