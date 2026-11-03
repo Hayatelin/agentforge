@@ -317,7 +317,7 @@ iteratively improving prompts, dependencies or approval gates.
 
 ```bash
 pip install -e ".[dev]"   # or: pip install pytest pyyaml
-pytest
+python -m pytest
 ```
 
 Tests cover DAG ordering and cycle detection, validation errors, mock-provider
