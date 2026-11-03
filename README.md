@@ -111,7 +111,8 @@ Or run the bundled example directly:
 python -m agentforge run examples/workflow.yaml --yes --provider mock
 ```
 
-After a run you'll get a `*.trace.json` correction log next to your workflow.
+After a run you'll get a `<workflow-basename>.trace.json` correction log in the
+current directory (or at `--trace PATH`).
 
 If you installed with `pip install -e .`, you can drop `python -m` and just use
 `agentforge init`, `agentforge run ...`, etc.

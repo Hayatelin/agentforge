@@ -43,7 +43,14 @@ def _default_approval(task: Task, agent: Agent) -> bool:
     print(f"\n  [checkpoint] Task '{task.name}' (agent: {agent.name}) "
           "requires approval before running.")
     print(f"    {task.description.strip().splitlines()[0]}")
-    answer = input("    Proceed? [y/N] ").strip().lower()
+    try:
+        answer = input("    Proceed? [y/N] ").strip().lower()
+    except EOFError:
+        # stdin is closed or not a terminal (CI, </dev/null): deny, exactly
+        # as if the user had answered "N".
+        print('\n    [checkpoint] no input available (non-interactive); '
+              'treating as "no".')
+        return False
     return answer in ("y", "yes")
 
 
